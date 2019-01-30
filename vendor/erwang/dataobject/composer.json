@@ -1,0 +1,24 @@
+{
+  "name": "erwang/dataobject",
+  "description": "PHP ORM in one single file",
+  "authors": [
+    {
+      "name": "ErwanG",
+      "email": "erwang@users.noreply.github.com"
+    }
+  ],
+  "type": "library",
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "ErwanG\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": { "ErwanG\\Tests\\": "tests/" }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7",
+    "phpunit/php-code-coverage": "^6.1"
+  }
+}
