@@ -32,6 +32,7 @@ class PlayerController extends Controller
     {
         var_dump($_POST);
 
+        //$decode = json_decode($_POST);
     	$player = PlayerModel::findFirst(["player_name" => $_POST['username']]);
         self::setContent($_POST['username']);
         self::setContent($_POST);
