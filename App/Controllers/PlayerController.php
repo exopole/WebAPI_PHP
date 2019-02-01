@@ -14,7 +14,7 @@ class PlayerController extends Controller
     {
         $player = PlayerModel::findFirst(["player_name" => $args["username"]]);
         self::setContent($player);
-        $game = new stdClass;
+        //$game = new stdClass;
 
         Message::addSuccess('Connection success !');
     }
