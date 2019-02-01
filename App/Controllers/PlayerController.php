@@ -34,20 +34,20 @@ class PlayerController extends Controller
 
         //$decode = json_decode($_POST);
     	$player = PlayerModel::findFirst(["player_name" => $_POST['username']]);
-        self::setContent($_POST['username']);
-        self::setContent($_POST);
+        // self::setContent($_POST['username']);
+        // self::setContent($_POST);
 
-    	// if(!$player)
-    	// {
-    	// 	$newPlayer = PlayerModel::create();
-    	// 	$newPlayer->id = PlayerModel::defineId();
-    	// 	$newPlayer->player_name = $_POST["username"];
-    	// 	$newPlayer->store();
-    	// }
-    	// else
-    	// {
-    	// 	Message::addWarning("Ce joueur...");
-    	// }
+    	if(!$player)
+    	{
+    		$newPlayer = PlayerModel::create();
+    		$newPlayer->id = PlayerModel::defineId();
+    		$newPlayer->player_name = $_POST["username"];
+    		$newPlayer->store();
+    	}
+    	else
+    	{
+    		Message::addWarning("Ce joueur...");
+    	}
     }
 
 }
