@@ -34,7 +34,7 @@ class PlayerController extends Controller
     	if(!$player)
     	{
     		$newPlayer = PlayerModel::create();
-    		$newPlayer->player_id = PlayerModel::defineId();
+    		$newPlayer->id = PlayerModel::defineId();
     		$newPlayer->username = $_POST["username"];
     		$newPlayer->store();
     	}
