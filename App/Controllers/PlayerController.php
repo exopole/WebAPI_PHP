@@ -30,6 +30,8 @@ class PlayerController extends Controller
 
     public function createPlayer($request, $response, $args)
     {
+        var_dump($_POST);
+
     	$player = PlayerModel::findFirst(["player_name" => $_POST['username']]);
         self::setContent($_POST['username']);
         self::setContent($_POST);
