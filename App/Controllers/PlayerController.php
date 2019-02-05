@@ -47,7 +47,7 @@ class PlayerController extends Controller
 
     public function connectPlayer($request, $response, $args)
     {
-    	$player = PlayerModel::findFirst(["player_name" => $args["username"]]);
+    	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
 
     	if($player){
 
