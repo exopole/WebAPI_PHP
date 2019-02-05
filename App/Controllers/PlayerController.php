@@ -30,12 +30,7 @@ class PlayerController extends Controller
 
     public function createPlayer($request, $response, $args)
     {
-        var_dump($_POST);
-
-        //$decode = json_decode($_POST);
     	$player = PlayerModel::findFirst(["player_name" => $_POST['username']]);
-        // self::setContent($_POST['username']);
-        // self::setContent($_POST);
 
     	if(!$player)
     	{
@@ -46,8 +41,25 @@ class PlayerController extends Controller
     	}
     	else
     	{
-    		Message::addWarning("Ce joueur...");
+    		Message::addWarning("Ce joueur existe déjà");
     	}
+    }
+
+    public function connectPlayer($request, $response, $args)
+    {
+    	$player = PlayerModel::findFirst(["player_name" => $args["username"]]);
+
+    	if($player){
+
+        	self::setContent($player->player_name);
+        	Message::addSuccess('Connection success !');
+    	}
+
+    	else {
+    		Message::addWarning("joueur non trouvé");
+    	}
+
+        
     }
 
 }
