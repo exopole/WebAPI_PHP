@@ -37,7 +37,10 @@ class PlayerController extends Controller
     		$newPlayer = PlayerModel::create();
     		$newPlayer->id = PlayerModel::defineId();
     		$newPlayer->player_name = $_POST["username"];
+    		$newPlayer->player_mdp = $_POST["mdp"];
     		$newPlayer->store();
+    		Message::addSuccess('Inscription success !');
+
     	}
     	else
     	{
@@ -51,8 +54,7 @@ class PlayerController extends Controller
 
     	if($player){
 
-        	self::setContent($player->player_name);
-        	Message::addSuccess('Connection success !');
+        	self::setContent($player);
     	}
 
     	else {
