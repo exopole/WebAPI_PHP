@@ -38,8 +38,12 @@ class PlayerController extends Controller
     		$newPlayer->id = PlayerModel::defineId();
     		$newPlayer->player_name = $_POST["username"];
     		$newPlayer->player_mdp = $_POST["mdp"];
+    		$newPlayer->player_mail = $_POST["mail"];
+    		$newPlayer->player_token = $_POST["token"];
     		$newPlayer->store();
     		Message::addSuccess('Inscription success !');
+        	self::setContent($player);
+    		
 
     	}
     	else
