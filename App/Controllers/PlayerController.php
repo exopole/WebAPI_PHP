@@ -32,7 +32,7 @@ class PlayerController extends Controller
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST['username']]);
 
-    	if(!$player)
+    	if(!$player && $_POST["username"] && $_POST["mdp"])
     	{
     		$newPlayer = PlayerModel::create();
     		$newPlayer->id = PlayerModel::defineId();
@@ -42,11 +42,12 @@ class PlayerController extends Controller
     		if($_POST["mail"])
     			$newPlayer->player_mail = $_POST["mail"];
     		
-    		if($_POST["token"])
-    			$newPlayer->player_token = $_POST["token"];
+    		$newPlayer->player_token = uniqid();
     		
     		$newPlayer->store();
     		Message::addSuccess('Inscription success !');
+    		$player = $newPlayer;
+    		unset($player->player_mdp);
         	self::setContent($player);
 
 
@@ -62,8 +63,14 @@ class PlayerController extends Controller
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
 
     	if($player){
+    		$player->player_token = uniqid();
 
-        	self::setContent($player);
+    		$player->store();
+
+    		$sendPlayer = $player;
+    		unset($newPlayer->player_mdp);
+
+        	self::setContent($sendPlayer);
     	}
 
     	else {
