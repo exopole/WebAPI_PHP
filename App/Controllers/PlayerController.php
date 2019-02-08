@@ -51,6 +51,7 @@ class PlayerController extends Controller
         	self::setContent($player);
 
 
+
     	}
     	else
     	{
@@ -64,7 +65,7 @@ class PlayerController extends Controller
 
     	if($player){
     		$player->player_token = uniqid();
-
+    		$_SESSION['token'] = $player->player_token;
     		$player->store();
 
     		$sendPlayer = $player;
