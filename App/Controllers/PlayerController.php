@@ -6,9 +6,11 @@ use Kernel\Controller;
 
 use Models\PlayerModel;
 use Models\Message;
+use phpseclib\Crypt\RSA;
 
 class PlayerController extends Controller
 {
+	//http://phpseclib.sourceforge.net/
 
     public function getPlayer($request,$response, $args)
     {
@@ -41,15 +43,35 @@ class PlayerController extends Controller
     		
     		if($_POST["mail"])
     			$newPlayer->player_mail = $_POST["mail"];
-    		
-    		$newPlayer->player_token = uniqid();
+
+    		$rsa = new RSA();
+    		extract($rsa->createKey());
+    		$privatekey = $rsa->getPrivateKey();
+    		$publickey = $rsa->getPublicKey();
+    		$_SESSION['token'] = PlayerModel::defineId();
+
+    		$newPlayer->player_token = $privatekey;
     		
     		$newPlayer->store();
     		Message::addSuccess('Inscription success !');
     		$player = $newPlayer;
+
+
+    		$player->token = $publickey; 
+
+
+
     		unset($player->player_mdp);
         	self::setContent($player);
 
+        	$newrsa = new RSA();
+        	$newrsa->loadKey($privatekey); 
+        	$signature = $rsa->sign($_SESSION['token');
+        	if($rsa->verify($_SESSION['token'], $signature) )
+        		Message::addSuccess('success !');
+        	else{
+        		Message::addSuccess('Fail !');
+        	}
 
 
     	}
