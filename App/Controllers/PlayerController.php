@@ -73,13 +73,16 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-    	if($player && $player->player_mdp == $_POST["mdp"] ){
-
-    		$rsa = new RSA();
+    	$rsa = new RSA();
     		extract($rsa->createKey());
     		$privatekey = $rsa->getPrivateKey();
     		$publickey = $rsa->getPublicKey();
     		$_SESSION['token'] = PlayerModel::defineId();
+
+    		var_dump($rsa);
+    	if($player && $player->player_mdp == $_POST["mdp"] ){
+
+    		
 
     		self::setContent($privatekey);
     		self::setContent($publickey);
