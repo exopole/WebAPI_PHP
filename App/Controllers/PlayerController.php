@@ -18,12 +18,13 @@ class PlayerController extends Controller
         self::setContent($player);
         //$game = new stdClass;
 		$rsa = new RSA();
-		extract($rsa->createKey());
+		$keys = $rsa->createKey();
 		$privatekey = $rsa->getPrivateKey();
 		$publickey = $rsa->getPublicKey();
 		$_SESSION['token'] = PlayerModel::defineId();
-		var_dump($rsa);
+		//var_dump($rsa);
         Message::addSuccess('Connection success !');
+        Message::addSuccess($keys);
     }
 
 
