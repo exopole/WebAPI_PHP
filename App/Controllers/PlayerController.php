@@ -22,6 +22,7 @@ class PlayerController extends Controller
 		$privatekey = $rsa->getPrivateKey();
 		$publickey = $rsa->getPublicKey();
 		$_SESSION['token'] = PlayerModel::defineId();
+		var_dump($rsa);
         Message::addSuccess('Connection success !');
     }
 
