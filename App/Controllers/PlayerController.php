@@ -17,7 +17,11 @@ class PlayerController extends Controller
         $player = PlayerModel::findFirst(["player_name" => $args["username"]]);
         self::setContent($player);
         //$game = new stdClass;
-
+		$rsa = new RSA();
+		extract($rsa->createKey());
+		$privatekey = $rsa->getPrivateKey();
+		$publickey = $rsa->getPublicKey();
+		$_SESSION['token'] = PlayerModel::defineId();
         Message::addSuccess('Connection success !');
     }
 
