@@ -63,18 +63,6 @@ class PlayerController extends Controller
 
     		unset($player->player_mdp);
         	self::setContent($player);
-
-        	$newrsa = new RSA();
-        	$newrsa->loadKey($privatekey); 
-        	$signature = $rsa->sign($_SESSION['token']);
-        	$newrsa->loadKey($publickey);
-        	if($rsa->verify($_SESSION['token'], $signature) )
-        		Message::addSuccess('success token !');
-        	else{
-        		Message::addSuccess('Fail token!');
-        	}
-
-
     	}
     	else
     	{
@@ -93,6 +81,7 @@ class PlayerController extends Controller
     		$publickey = $rsa->getPublicKey();
     		$_SESSION['token'] = PlayerModel::defineId();
 
+    		var_dump($rsa);
 
     		$player->player_token = $privatekey;
     		$player->store();
@@ -102,7 +91,7 @@ class PlayerController extends Controller
     		unset($sendPlayer->player_mdp);
 
         	self::setContent($sendPlayer);
-
+/*
         	$newrsa = new RSA();
         	$newrsa->loadKey($privatekey); 
         	$signature = $rsa->sign($_SESSION['token']);
@@ -112,7 +101,7 @@ class PlayerController extends Controller
         	}
         	else{
         		Message::addSuccess('Fail token!');
-    		}
+    		}*/
     	}
 
     	else {
