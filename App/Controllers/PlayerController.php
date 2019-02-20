@@ -85,7 +85,7 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-    	if($player){
+    	if($player && $player->player_mdp == $_POST["mdp"] ){
 
     		$rsa = new RSA();
     		extract($rsa->createKey());
@@ -116,7 +116,7 @@ class PlayerController extends Controller
     	}
 
     	else {
-    		Message::addWarning("joueur non trouvé");
+    		Message::addWarning("joueur non trouvé. Vérifié votre pseudo et votre mot de passe");
     	}
 
         
