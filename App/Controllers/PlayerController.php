@@ -67,6 +67,7 @@ class PlayerController extends Controller
         	$newrsa = new RSA();
         	$newrsa->loadKey($privatekey); 
         	$signature = $rsa->sign($_SESSION['token']);
+        	$newrsa->loadKey($publickey);
         	if($rsa->verify($_SESSION['token'], $signature) )
         		Message::addSuccess('success token !');
         	else{
