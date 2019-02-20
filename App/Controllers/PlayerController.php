@@ -81,7 +81,8 @@ class PlayerController extends Controller
     		$publickey = $rsa->getPublicKey();
     		$_SESSION['token'] = PlayerModel::defineId();
 
-    		var_dump($rsa);
+    		self::setContent($privatekey);
+    		self::setContent($publickey);
 
     		$player->player_token = $privatekey;
     		$player->store();
