@@ -85,7 +85,7 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-
+    	var_dump($_POST);
     	if($player){
 
     		$rsa = new RSA();
