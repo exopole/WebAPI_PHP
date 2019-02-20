@@ -19,7 +19,7 @@ class PlayerController extends Controller
         //$game = new stdClass;
 		$rsa = new RSA();
 		$keys = $rsa->createKey();
-		$privatekey = $keys[0];
+		$privatekey = $keys["text"];
 		$publickey = $keys[1];
 		$_SESSION['token'] = PlayerModel::defineId();
 		//var_dump($rsa);
