@@ -56,8 +56,6 @@ class PlayerController extends Controller
 
     		$rsa = new RSA();
     		extract($rsa->createKey());
-    		$privatekey = $rsa->getPrivateKey();
-    		$publickey = $rsa->getPublicKey();
     		$_SESSION['token'] = PlayerModel::defineId();
 
     		$newPlayer->player_token = $privatekey;
@@ -67,7 +65,7 @@ class PlayerController extends Controller
     		$player = $newPlayer;
 
 
-    		$player->token = $publickey; 
+    		$player->player_token = $publickey; 
 
 
 
@@ -85,23 +83,18 @@ class PlayerController extends Controller
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
     	$rsa = new RSA();
     		extract($rsa->createKey());
-    		$privatekey = $rsa->getPrivateKey();
-    		$publickey = $rsa->getPublicKey();
     		$_SESSION['token'] = PlayerModel::defineId();
 
-    		var_dump($rsa);
     	if($player && $player->player_mdp == $_POST["mdp"] ){
 
     		
 
-    		self::setContent($privatekey);
-    		self::setContent($publickey);
 
     		$player->player_token = $privatekey;
     		$player->store();
 
     		$sendPlayer = $player;
-    		$sendPlayer->token = $publickey;
+    		$sendPlayer->player_token = $publickey;
     		unset($sendPlayer->player_mdp);
 
         	self::setContent($sendPlayer);
