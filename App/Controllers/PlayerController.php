@@ -15,20 +15,30 @@ class PlayerController extends Controller
     public function getPlayer($request,$response, $args)
     {
         $player = PlayerModel::findFirst(["player_name" => $args["username"]]);
-        self::setContent($player);
-        //$game = new stdClass;
-		$rsa = new RSA();
-		$keys = $rsa->createKey();
-		extract($keys);
-		// $privatekey = $keys->privatekey;
-		// $publickey = $keys[1];
-		$_SESSION['token'] = PlayerModel::defineId();
-		//var_dump($rsa);
-        Message::addSuccess('Connection success !');
+        if($player)
+        {
+            //self::setContent($player);
+            //$game = new stdClass;
+            $newrsa = new RSA();
+            $newrsa->loadKey($player->player_token); 
+            $signature = $rsa->sign("THEGreatWizardTournament")
+            $newrsa->loadKey($args["token"]);
+            if($rsa->verify($_SESSION['token'], $signature) ){
+                Message::addSuccess('success token !');
+            }
+            else{
+                Message::addSuccess('Fail token!');
+            }
+            Message::addSuccess('Infos retrieve success !');
+        }
+        else{
+            Message::addWarning("La connection ne c\"est pas effectué");
+        }
+        
 
-        Message::addSuccess($keys);
-        Message::addSuccess($privatekey);
-        Message::addSuccess($publickey);
+
+
+
     }
 
 
