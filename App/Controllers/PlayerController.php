@@ -153,7 +153,7 @@ class PlayerController extends Controller
             //$game = new stdClass;
             $newrsa = new RSA();
             $newrsa->loadKey($player->player_token); 
-            $signature = $rsa->sign("THEGreatWizardTournament")
+            $signature = $rsa->sign("THEGreatWizardTournament");
             $newrsa->loadKey($_POST["token"]);
             if($rsa->verify($_SESSION['token'], $signature) ){
                 Message::addSuccess('success token !');
