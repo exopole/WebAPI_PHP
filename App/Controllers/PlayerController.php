@@ -14,7 +14,7 @@ class PlayerController extends Controller
 
     public function getPlayer($request,$response, $args)
     {
-        $player = PlayerModel::findFirst(["player_name" => $args["username"]]);
+        $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
             //self::setContent($player);
@@ -22,9 +22,14 @@ class PlayerController extends Controller
             $newrsa = new RSA();
             $newrsa->loadKey($player->player_token); 
             $signature = $rsa->sign("THEGreatWizardTournament")
-            $newrsa->loadKey($args["token"]);
+            $newrsa->loadKey($_POST["token"]);
             if($rsa->verify($_SESSION['token'], $signature) ){
                 Message::addSuccess('success token !');
+
+                unset($player->player_mdp);
+                unset($player->player_token);
+                unset($player->player_mail);
+                self::setContent($player);
             }
             else{
                 Message::addSuccess('Fail token!');
@@ -35,10 +40,21 @@ class PlayerController extends Controller
             Message::addWarning("La connection ne c\"est pas effectué");
         }
         
+    }
 
+    public function getLeaderBoard($request,$response, $args)
+    {
+        $players = PlayerModel::findAll();
 
+        foreach ($players as $player) {
+    		unset($player->player_mdp);
+            unset($player->player_token);
+            unset($player->player_mail);
+        }
 
+        self::setContent($players);
 
+        
     }
 
 
@@ -124,6 +140,52 @@ class PlayerController extends Controller
     	else {
     		Message::addWarning("joueur non trouvé. Vérifié votre pseudo et votre mot de passe");
     	}
+
+        
+    }
+
+    public function setScore($request,$response, $args)
+    {
+        $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
+        if($player)
+        {
+            //self::setContent($player);
+            //$game = new stdClass;
+            $newrsa = new RSA();
+            $newrsa->loadKey($player->player_token); 
+            $signature = $rsa->sign("THEGreatWizardTournament")
+            $newrsa->loadKey($_POST["token"]);
+            if($rsa->verify($_SESSION['token'], $signature) ){
+                Message::addSuccess('success token !');
+
+                if($_POST["1vall"]){
+                	$player->player_1vall = $_POST["1vall"];
+                }
+                if($_POST["2v2"]){
+                	$player->player_2v2 = $_POST["2v2"];
+                }
+                if($_POST["3v3"]){
+                	$player->player_3v3 = $_POST["3v3"];
+                }
+                if($_POST["4v4"]){
+                	$player->player_4v4 = $_POST["4v4"];
+                }
+
+                $player->store();
+
+                unset($player->player_mdp);
+                unset($player->player_token);
+                unset($player->player_mail);
+                self::setContent($player);
+            }
+            else{
+                Message::addSuccess('Fail token!');
+            }
+            Message::addSuccess('Infos retrieve success !');
+        }
+        else{
+            Message::addWarning("La connection ne c\"est pas effectué");
+        }
 
         
     }
