@@ -33,6 +33,7 @@ class PlayerController extends Controller
             }
             else{
                 Message::addWarning('Fail token! : ' + $_POST["token"]);
+                self::setContent($_POST["token"]);
             }
             Message::addSuccess('Player trouvé !');
         }
