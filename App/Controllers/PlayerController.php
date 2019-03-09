@@ -22,9 +22,10 @@ class PlayerController extends Controller
             $newrsa = new RSA();
             $newrsa->loadKey($player->player_token); 
             $content = $player->player_token;
-            $signature = $newrsa->sign("THEGreatWizardTournament");
+            $plaintext = "THEGreatWizardTournament";
+            $signature = $newrsa->sign($plaintext);
             $newrsa->loadKey($_POST["token"]);
-            if($newrsa->verify("THEGreatWizardTournament", $signature) ){
+            if($newrsa->verify($plaintext, $signature) ){
                 Message::addSuccess('success token !');
 
                 // unset($player->player_mdp);
