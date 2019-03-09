@@ -32,7 +32,7 @@ class PlayerController extends Controller
                 self::setContent($player);
             }
             else{
-                Message::addSuccess('Fail token!');
+                Message::addSuccess('Fail token! : ' + $_POST["token"]);
             }
             Message::addSuccess('Infos retrieve success !');
         }
