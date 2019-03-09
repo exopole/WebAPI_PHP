@@ -14,7 +14,7 @@ class PlayerController extends Controller
 
     public function getPlayer($request,$response, $args)
     {
-        $player = PlayerModel::findFirst(["player_name" => $args["username"]]);
+        $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
             //self::setContent($player);
@@ -22,7 +22,7 @@ class PlayerController extends Controller
             $newrsa = new RSA();
             $newrsa->loadKey($player->player_token); 
             $signature = $newrsa->sign("THEGreatWizardTournament");
-            $newrsa->loadKey($args["token"]);
+            $newrsa->loadKey($_POST["token"]);
             if($newrsa->verify($_SESSION['token'], $signature) ){
                 Message::addSuccess('success token !');
 
