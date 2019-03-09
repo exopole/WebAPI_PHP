@@ -26,15 +26,15 @@ class PlayerController extends Controller
             if($newrsa->verify("THEGreatWizardTournament", $signature) ){
                 Message::addSuccess('success token !');
 
-                unset($player->player_mdp);
-                unset($player->player_token);
-                unset($player->player_mail);
+                // unset($player->player_mdp);
+                // unset($player->player_token);
+                // unset($player->player_mail);
                 self::setContent($player);
             }
             else{
-                Message::addSuccess('Fail token! : ' + $_POST["token"]);
+                Message::addWarning('Fail token! : ' + $_POST["token"]);
             }
-            Message::addSuccess('Infos retrieve success !');
+            Message::addSuccess('Player trouvé !');
         }
         else{
             Message::addWarning("La connection ne c\"est pas effectué");
