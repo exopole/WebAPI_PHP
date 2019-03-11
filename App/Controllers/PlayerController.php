@@ -25,14 +25,32 @@ class PlayerController extends Controller
         {
             //self::setContent($player);
             //$game = new stdClass;
-            $newrsa = new RSA();
-            $newrsa->loadKey($player->player_token); // load private key
 
-            $content = $player->player_token;
+			$newrsa = new RSA();
+    		$newrsa->loadKey($_POST["token"]);
+    		$encrypt = $newrsa->encrypt($plaintext);
+    		$newrsa->loadKey($player->player_token);
+    		// if($plaintext == $newrsa->decrypt($encrypt))
+    		// {
+    		// 	Message::addSuccess('success token !');
+    		// }
+    		// else
+    		// {
+    		// 	Message::addWarning('fail token !');
+
+    		// }
+
+      //       $newrsa = new RSA();
+      //       $newrsa->loadKey($player->player_token); // load private key
+
+      //       $content = $player->player_token;
             
-            $signature = $newrsa->sign($plaintext);
-            $newrsa->loadKey($_POST["token"]);
-            if($newrsa->verify($plaintext, $signature) ){
+
+
+      //       $signature = $newrsa->sign($plaintext);
+      //       $newrsa->loadKey($_POST["token"]);
+            // if($newrsa->verify($plaintext, $signature) ){
+          	if($plaintext == $newrsa->decrypt($encrypt))
                 Message::addSuccess('success token !');
 
                 // unset($player->player_mdp);
@@ -156,7 +174,7 @@ class PlayerController extends Controller
     		}
     		else
     		{
-    			Message::addWarning('success token !');
+    			Message::addWarning('fail token !');
 
     		}
     	}
