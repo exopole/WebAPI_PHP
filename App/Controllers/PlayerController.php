@@ -146,7 +146,7 @@ class PlayerController extends Controller
       //   		Message::addSuccess('Fail token!');
     		// }
 
-    		$newsa = new RSA();
+    		$newrsa = new RSA();
     		$newrsa->loadKey($publickey);
     		$encrypt = $newrsa->encrypt($plaintext);
     		$newrsa->loadKey($privatekey);
