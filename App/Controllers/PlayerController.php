@@ -23,45 +23,23 @@ class PlayerController extends Controller
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
-            //self::setContent($player);
-            //$game = new stdClass;
 
 			$newrsa = new RSA();
     		$newrsa->loadKey($_POST["token"]);
     		$encrypt = $newrsa->encrypt($plaintext);
     		$newrsa->loadKey($player->player_token);
-    		// if($plaintext == $newrsa->decrypt($encrypt))
-    		// {
-    		// 	Message::addSuccess('success token !');
-    		// }
-    		// else
-    		// {
-    		// 	Message::addWarning('fail token !');
 
-    		// }
-
-      //       $newrsa = new RSA();
-      //       $newrsa->loadKey($player->player_token); // load private key
-
-      //       $content = $player->player_token;
-            
-
-
-      //       $signature = $newrsa->sign($plaintext);
-      //       $newrsa->loadKey($_POST["token"]);
-            // if($newrsa->verify($plaintext, $signature) ){
           	if($plaintext == $newrsa->decrypt($encrypt))
           	{
                 Message::addSuccess('success token !');
 
-                // unset($player->player_mdp);
-                // unset($player->player_token);
-                // unset($player->player_mail);
+                unset($player->player_mdp);
+                unset($player->player_token);
+                unset($player->player_mail);
                 self::setContent($player);
             }
             else{
-                Message::addWarning('Fail token! : ' + $_POST["token"]);
-                self::setContent($player->player_token);
+                Message::addWarning('Fail token!');
             }
             Message::addSuccess('Player trouvé !');
         }
@@ -154,30 +132,19 @@ class PlayerController extends Controller
 
         	self::setContent($sendPlayer);
 
-      //   	$newrsa = new RSA();
-      //   	$newrsa->loadKey($privatekey); 
-      //   	$signature = $rsa->sign($plaintext);
-      //   	$newrsa->loadKey($publickey);
-      //   	if($rsa->verify($plaintext, $signature) ){
-      //   		Message::addSuccess('success token !');
-      //   	}
-      //   	else{
-      //   		Message::addSuccess('Fail token!');
+    		// $newrsa = new RSA();
+    		// $newrsa->loadKey($publickey);
+    		// $encrypt = $newrsa->encrypt($plaintext);
+    		// $newrsa->loadKey($privatekey);
+    		// if($plaintext == $newrsa->decrypt($encrypt))
+    		// {
+    		// 	Message::addSuccess('success token !');
     		// }
+    		// else
+    		// {
+    		// 	Message::addWarning('fail token !');
 
-    		$newrsa = new RSA();
-    		$newrsa->loadKey($publickey);
-    		$encrypt = $newrsa->encrypt($plaintext);
-    		$newrsa->loadKey($privatekey);
-    		if($plaintext == $newrsa->decrypt($encrypt))
-    		{
-    			Message::addSuccess('success token !');
-    		}
-    		else
-    		{
-    			Message::addWarning('fail token !');
-
-    		}
+    		// }
     	}
 
     	else {
@@ -192,13 +159,12 @@ class PlayerController extends Controller
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
-            //self::setContent($player);
-            //$game = new stdClass;
             $newrsa = new RSA();
-            $newrsa->loadKey($player->player_token); 
-            $signature = $rsa->sign("THEGreatWizardTournament");
-            $newrsa->loadKey($_POST["token"]);
-            if($rsa->verify($_SESSION['token'], $signature) ){
+            $newrsa->loadKey($publickey);
+            $encrypt = $newrsa->encrypt($plaintext);
+            $newrsa->loadKey($privatekey);
+            if($plaintext == $newrsa->decrypt($encrypt))
+            {
                 Message::addSuccess('success token !');
 
                 if($_POST["1vall"]){
