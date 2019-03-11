@@ -51,6 +51,7 @@ class PlayerController extends Controller
       //       $newrsa->loadKey($_POST["token"]);
             // if($newrsa->verify($plaintext, $signature) ){
           	if($plaintext == $newrsa->decrypt($encrypt))
+          	{
                 Message::addSuccess('success token !');
 
                 // unset($player->player_mdp);
