@@ -11,7 +11,7 @@ use phpseclib\Crypt\RSA;
 class PlayerController extends Controller
 {
 	//http://phpseclib.sourceforge.net/
-	$plaintext = "THEGreatWizardTournament";
+	public $plaintext = "THEGreatWizardTournament";
 
 	public function getPlayerTest($request,$response, $args)
 	{
