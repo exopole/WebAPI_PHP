@@ -123,7 +123,8 @@ class PlayerController extends Controller
     		
 
 
-    		$player->player_token = $privatekey;
+            $player->player_token = $privatekey;
+    		$player->player_date_last_connection = new DateTime();
     		$player->store();
 
     		$sendPlayer = $player;
