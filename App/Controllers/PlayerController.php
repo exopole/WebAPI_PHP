@@ -11,7 +11,7 @@ use phpseclib\Crypt\RSA;
 class PlayerController extends Controller
 {
 	//http://phpseclib.sourceforge.net/
-
+	$plaintext = "THEGreatWizardTournament";
     public function getPlayer($request,$response, $args)
     {
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
@@ -20,9 +20,10 @@ class PlayerController extends Controller
             //self::setContent($player);
             //$game = new stdClass;
             $newrsa = new RSA();
-            $newrsa->loadKey($player->player_token); 
+            $newrsa->loadKey($player->player_token); // load private key
+
             $content = $player->player_token;
-            $plaintext = "THEGreatWizardTournament";
+            
             $signature = $newrsa->sign($plaintext);
             $newrsa->loadKey($_POST["token"]);
             if($newrsa->verify($plaintext, $signature) ){
@@ -127,17 +128,17 @@ class PlayerController extends Controller
     		unset($sendPlayer->player_mdp);
 
         	self::setContent($sendPlayer);
-/*
+
         	$newrsa = new RSA();
         	$newrsa->loadKey($privatekey); 
-        	$signature = $rsa->sign($_SESSION['token']);
+        	$signature = $rsa->sign($plaintext);
         	$newrsa->loadKey($publickey);
-        	if($rsa->verify($_SESSION['token'], $signature) ){
+        	if($rsa->verify($plaintext, $signature) ){
         		Message::addSuccess('success token !');
         	}
         	else{
         		Message::addSuccess('Fail token!');
-    		}*/
+    		}
     	}
 
     	else {
