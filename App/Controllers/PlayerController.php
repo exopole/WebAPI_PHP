@@ -91,18 +91,15 @@ class PlayerController extends Controller
 
     		$rsa = new RSA();
     		extract($rsa->createKey());
-    		$_SESSION['token'] = PlayerModel::defineId();
 
     		$newPlayer->player_token = $privatekey;
-    		
+            $newPlayer->player_date_last_connection = (new DateTime())->format('Y-m-d');
+    		$newPlayer->player_date_inscription = (new DateTime())->format('Y-m-d');
     		$newPlayer->store();
     		Message::addSuccess('Inscription success !');
     		$player = $newPlayer;
 
-
     		$player->player_token = $publickey; 
-
-
 
     		unset($player->player_mdp);
         	self::setContent($player);
