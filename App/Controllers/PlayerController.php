@@ -117,7 +117,7 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-    	$rsa = new Crypt_RSA();
+    	$rsa = new RSA();
     		extract($rsa->createKey());
     		$_SESSION['token'] = PlayerModel::defineId();
 
@@ -146,7 +146,7 @@ class PlayerController extends Controller
       //   		Message::addSuccess('Fail token!');
     		// }
 
-    		$newsa = new Crypt_RSA();
+    		$newsa = new RSA();
     		$newrsa->loadKey($publickey);
     		$encrypt = $newrsa->encrypt($plaintext);
     		$newrsa->loadKey($privatekey);
