@@ -126,8 +126,8 @@ class PlayerController extends Controller
 
 
             $player->player_token = $privatekey;
-            Message::addWarning(new DateTime());
-    		//$player->player_date_last_connection = new DateTime();
+            Message::addWarning((new DateTime()->format('Y-m-d'));
+    		//$player->player_date_last_connection = (new DateTime()->format('Y-m-d');
     		$player->store();
 
     		$sendPlayer = $player;
