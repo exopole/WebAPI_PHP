@@ -135,20 +135,30 @@ class PlayerController extends Controller
 
         	self::setContent($sendPlayer);
 
-        	$newrsa = new RSA();
-        	$newrsa->loadKey($privatekey); 
-        	$signature = $rsa->sign($_SESSION['token']);
-        	$newrsa->loadKey($publickey);
-        	if($rsa->verify($_SESSION['token'], $signature) ){
-        		Message::addSuccess('success token !');
-        	}
-        	else{
-        		Message::addSuccess('Fail token!');
-    		}
+      //   	$newrsa = new RSA();
+      //   	$newrsa->loadKey($privatekey); 
+      //   	$signature = $rsa->sign($plaintext);
+      //   	$newrsa->loadKey($publickey);
+      //   	if($rsa->verify($plaintext, $signature) ){
+      //   		Message::addSuccess('success token !');
+      //   	}
+      //   	else{
+      //   		Message::addSuccess('Fail token!');
+    		// }
 
-    		// $newsa = new RSA();
-    		// $newrsa->loadKey($publickey);
-    		// $encrypt = 
+    		$newsa = new RSA();
+    		$newrsa->loadKey($publickey);
+    		$encrypt = $newrsa->encrypt($plaintext);
+    		$newrsa->loadKey($privatekey);
+    		if($plaintext == $newrsa->decrypt($encrypt))
+    		{
+    			Message::addSuccess('success token !');
+    		}
+    		else
+    		{
+    			Message::addWarning('success token !');
+
+    		}
     	}
 
     	else {
