@@ -12,6 +12,12 @@ class PlayerController extends Controller
 {
 	//http://phpseclib.sourceforge.net/
 	$plaintext = "THEGreatWizardTournament";
+
+	public function getPlayerTest($request,$response, $args)
+	{
+		Message::addSuccess('success token !');
+	}
+
     public function getPlayer($request,$response, $args)
     {
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
