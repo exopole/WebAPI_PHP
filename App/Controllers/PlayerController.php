@@ -214,7 +214,7 @@ class PlayerController extends Controller
                 unset($player->player_mdp);
                 unset($player->player_token);
                 unset($player->player_mail);
-                self::setContent($_POST);
+                self::setContent($player);
             }
             else{
                 Message::addWarning('Fail token!');
