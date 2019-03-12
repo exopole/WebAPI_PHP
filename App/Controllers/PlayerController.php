@@ -14,7 +14,7 @@ class PlayerController extends Controller
 {
 	//http://phpseclib.sourceforge.net/
 	public $plaintext = "THEGreatWizardTournament";
-	public $tokenServer = "MiaouIStheWORLD";
+	
 
 	public function getPlayerTest($request,$response, $args)
 	{
@@ -158,6 +158,7 @@ class PlayerController extends Controller
 
     public function setScore($request,$response, $args)
     {
+    	$tokenServer = "MiaouIStheWORLD";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
