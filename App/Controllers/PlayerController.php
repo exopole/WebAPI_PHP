@@ -189,7 +189,7 @@ class PlayerController extends Controller
 	                	}
 
 	                	else{
-                			Message::addSuccess('null');
+                			Message::addSuccess('null : '. $_POST["1vall"]);
 	                		$player->player_1vall = $_POST["1vall"];
 	                	}
 	                	if($player->player_1vall < 0)
