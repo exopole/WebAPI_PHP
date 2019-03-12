@@ -168,7 +168,7 @@ class PlayerController extends Controller
             if($plaintext == $newrsa->decrypt($encrypt) && $_POST["token_server"] == $tokenServer)
             {
                 Message::addSuccess('success token !');
-
+                //var_dump(expression)
                 if($_POST["score_1vall"]){
                 	if($player->player_1vall)
                 		$player->player_1vall += $_POST["1vall"];
@@ -214,7 +214,7 @@ class PlayerController extends Controller
                 unset($player->player_mdp);
                 unset($player->player_token);
                 unset($player->player_mail);
-                self::setContent($player);
+                self::setContent($_POST);
             }
             else{
                 Message::addWarning('Fail token!');
