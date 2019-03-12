@@ -180,16 +180,11 @@ class PlayerController extends Controller
 
 	                //var_dump(expression)
 	                if($_POST["score_1vall"]){
-                		Message::addSuccess('score_1vall');
-
 	                	if($player->player_1vall ){
-                			Message::addSuccess('non null');
-	                		
-	                		$player->player_1vall += $_POST["1vall"];
+	                		$player->player_1vall += $_POST["score_1vall"];
 	                	}
 
 	                	else{
-                			Message::addSuccess('null : '. $_POST["score_1vall"]);
 	                		$player->player_1vall = $_POST["score_1vall"];
 	                	}
 	                	if($player->player_1vall < 0)
