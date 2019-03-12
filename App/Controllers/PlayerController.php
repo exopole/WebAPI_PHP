@@ -171,8 +171,8 @@ class PlayerController extends Controller
 
                 Message::addSuccess('success token !');
                 if($_POST["token_server"] != $tokenServer){
-                	Message::addWarning('Fail token server!' + $_POST["token_server"] + "/ " + $tokenServer);
-
+                	Message::addWarning('Fail token server!');
+					self::setContent( $_POST["token_server"] + "/ " + $tokenServer);
                 }
                 else{
 
