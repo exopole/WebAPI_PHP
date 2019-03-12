@@ -166,7 +166,7 @@ class PlayerController extends Controller
             $encrypt = $newrsa->encrypt($plaintext);
             $newrsa->loadKey($privatekey);
 
-            if($plaintext == $newrsa->decrypt($encrypt) && $_POST["token_server"] == $tokenServer)
+            if($plaintext == $newrsa->decrypt($encrypt) )
             {
 
                 Message::addSuccess('success token !');
