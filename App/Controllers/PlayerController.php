@@ -14,6 +14,7 @@ class PlayerController extends Controller
 {
 	//http://phpseclib.sourceforge.net/
 	public $plaintext = "THEGreatWizardTournament";
+	public $tokenServer = "MiaouIStheWORLD";
 
 	public function getPlayerTest($request,$response, $args)
 	{
@@ -164,21 +165,30 @@ class PlayerController extends Controller
             $newrsa->loadKey($publickey);
             $encrypt = $newrsa->encrypt($plaintext);
             $newrsa->loadKey($privatekey);
-            if($plaintext == $newrsa->decrypt($encrypt))
+            if($plaintext == $newrsa->decrypt($encrypt) && $_POST["token_server"] == $tokenServer)
             {
                 Message::addSuccess('success token !');
 
                 if($_POST["1vall"]){
-                	$player->player_1vall = $_POST["1vall"];
+                	$player->player_1vall += $_POST["1vall"];
+                	if($player->player_1vall < 0)
+                		$player->player_1vall = 0;
+
                 }
                 if($_POST["2v2"]){
-                	$player->player_2v2 = $_POST["2v2"];
+                	$player->player_2v2 += $_POST["2v2"];
+                	if($player->player_2v2 < 0)
+                		$player->player_2v2 = 0;
                 }
                 if($_POST["3v3"]){
-                	$player->player_3v3 = $_POST["3v3"];
+                	$player->player_3v3 += $_POST["3v3"];
+                	if($player->player_3v3 < 0)
+                		$player->player_3v3 = 0;
                 }
                 if($_POST["4v4"]){
-                	$player->player_4v4 = $_POST["4v4"];
+                	$player->player_4v4 += $_POST["4v4"];
+                	if($player->player_4v4 < 0)
+                		$player->player_4v4 = 0;
                 }
 
                 $player->store();
