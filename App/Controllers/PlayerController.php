@@ -176,6 +176,7 @@ class PlayerController extends Controller
 					self::setContent( $_POST["token_server"] . '/ ' . $tokenServer);
                 }
                 else{
+                	Message::addSuccess('success token server!');
 
 	                //var_dump(expression)
 	                if($_POST["score_1vall"]){
