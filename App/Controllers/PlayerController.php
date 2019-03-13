@@ -165,9 +165,12 @@ class PlayerController extends Controller
         if($player)
         {
             $newrsa = new RSA();
-            $newrsa->loadKey($publickey);
-            $encrypt = $newrsa->encrypt($plaintext);
             $newrsa->loadKey($player->player_token);
+            $newrsa->loadKey($newrsa->getPublicKey());
+            //$newrsa->loadKey($_POST["token"]);
+            $encrypt = $newrsa->encrypt($plaintext);
+            //$newrsa->loadKey($player->player_token);
+            $
 
             if($plaintext == $newrsa->decrypt($encrypt) )
             {
