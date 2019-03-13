@@ -134,19 +134,20 @@ class PlayerController extends Controller
 
         	self::setContent($sendPlayer);
 
-    		// $newrsa = new RSA();
-    		// $newrsa->loadKey($publickey);
-    		// $encrypt = $newrsa->encrypt($plaintext);
-    		// $newrsa->loadKey($privatekey);
-    		// if($plaintext == $newrsa->decrypt($encrypt))
-    		// {
-    		// 	Message::addSuccess('success token !');
-    		// }
-    		// else
-    		// {
-    		// 	Message::addWarning('fail token !');
+            $plaintext2 = "THEGreatWizardTournament";
+    		$newrsa = new RSA();
+    		$newrsa->loadKey($publickey);
+    		$encrypt = $newrsa->encrypt($plaintext2);
+    		$newrsa->loadKey($privatekey);
+    		if($plaintext2 == $newrsa->decrypt($encrypt))
+    		{
+    			Message::addSuccess('success token !');
+    		}
+    		else
+    		{
+    			Message::addWarning('fail token !');
 
-    		// }
+    		}
     	}
 
     	else {
