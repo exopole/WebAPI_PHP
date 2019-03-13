@@ -43,7 +43,7 @@ class PlayerController extends Controller
             }
             else{
                 Message::addWarning('Fail token!');
-                self::setContent($_POST["token"] . $player->player_token);
+                self::setContent($newrsa->getPublicKey() . $newrsa->getPrivateKey());
             }
             Message::addSuccess('Player trouvé !');
         }
@@ -134,6 +134,7 @@ class PlayerController extends Controller
     		unset($sendPlayer->player_mdp);
 
         	
+            self::setContent($sendPlayer);
 
             $plaintext2 = "THEGreatWizardTournament";
     		$newrsa = new RSA();
@@ -143,7 +144,6 @@ class PlayerController extends Controller
     		if($plaintext2 == $newrsa->decrypt($encrypt))
     		{
     			Message::addSuccess('success token !');
-                self::setContent($sendPlayer);
     		}
     		else
     		{
