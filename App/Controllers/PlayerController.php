@@ -13,7 +13,7 @@ use \Datetime;
 class PlayerController extends Controller
 {
 	//http://phpseclib.sourceforge.net/
-	public $plaintext = "THEGreatWizardTournament";
+	//public $plaintext = "THEGreatWizardTournament";
 	
 
 	public function getPlayerTest($request,$response, $args)
@@ -23,10 +23,10 @@ class PlayerController extends Controller
 
     public function getPlayer($request,$response, $args)
     {
+        $plaintext = "THEGreatWizardTournament";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
-
 			$newrsa = new RSA();
     		$newrsa->loadKey($_POST["token"]);
     		$encrypt = $newrsa->encrypt($plaintext);
@@ -159,6 +159,7 @@ class PlayerController extends Controller
 
     public function setScore($request,$response, $args)
     {
+        $plaintext = "THEGreatWizardTournament";
     	$tokenServer = "MiaouIStheWORLD";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
