@@ -133,7 +133,7 @@ class PlayerController extends Controller
     		$sendPlayer->player_token = $publickey;
     		unset($sendPlayer->player_mdp);
 
-        	self::setContent($sendPlayer);
+        	
 
             $plaintext2 = "THEGreatWizardTournament";
     		$newrsa = new RSA();
@@ -143,6 +143,7 @@ class PlayerController extends Controller
     		if($plaintext2 == $newrsa->decrypt($encrypt))
     		{
     			Message::addSuccess('success token !');
+                self::setContent($sendPlayer);
     		}
     		else
     		{
