@@ -27,25 +27,25 @@ class PlayerController extends Controller
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
+            unset($player->player_mdp);
+            unset($player->player_token);
+            unset($player->player_mail);
+            self::setContent($player);
 			$newrsa = new RSA();
     		$newrsa->loadKey($_POST["token"]);
             Message::addWarning($_POST["token"] ."<<<<<<<" . $newrsa->getPublicKey());
     		$encrypt = $newrsa->encrypt($plaintext2);
     		$newrsa->loadKey($player->player_token);
 
-          	if($plaintext2 == $newrsa->decrypt($encrypt))
-          	{
-                Message::addSuccess('success token !');
+          	// if($plaintext2 == $newrsa->decrypt($encrypt))
+          	// {
+                //Message::addSuccess('success token !');
 
-                unset($player->player_mdp);
-                unset($player->player_token);
-                unset($player->player_mail);
-                self::setContent($player);
-            }
-            else{
-                Message::addWarning('Fail token!');
-                self::setContent($newrsa->getPublicKey() . $newrsa->getPrivateKey());
-            }
+            // }
+            // else{
+            //     Message::addWarning('Fail token!');
+            //     self::setContent($newrsa->getPublicKey() . $newrsa->getPrivateKey());
+            // }
             Message::addSuccess('Player trouvé !');
         }
         else{
@@ -175,67 +175,68 @@ class PlayerController extends Controller
             $encrypt = $newrsa->encrypt($plaintext);
             //$newrsa->loadKey($player->player_token);
 
+            
+
+            if($_POST["token_server"] != $tokenServer){
+            	Message::addWarning('Fail token server!');
+				self::setContent( $_POST["token_server"] . '/ ' . $tokenServer);
+            }
+            else{
+            	Message::addSuccess('success token server!');
+
+                //var_dump(expression)
+                if($_POST["score_1vall"]){
+                	if($player->player_1vall ){
+                		$player->player_1vall += $_POST["score_1vall"];
+                	}
+
+                	else{
+                		$player->player_1vall = $_POST["score_1vall"];
+                	}
+                	if($player->player_1vall < 0)
+                		$player->player_1vall = 0;
+
+                }
+                if($_POST["score_2v2"]){
+                	if($player->player_2v2)
+                		$player->player_2v2 += $_POST["score_2v2"];
+                	else{
+                		$player->player_2v2 = $_POST["score_2v2"];
+                	}
+                	if($player->player_2v2 < 0)
+                		$player->player_2v2 = 0;
+                }
+                if($_POST["score_3v3"]){
+                	if($player->player_3v3)
+                		$player->player_3v3 += $_POST["score_3v3"];
+                	else{
+                		$player->player_3v3 = $_POST["score_3v3"];
+
+                	}
+                	if($player->player_3v3 < 0)
+                		$player->player_3v3 = 0;
+                }
+                if($_POST["score_4v4"]){
+                	if($player->player_4v4)
+                		$player->player_4v4 += $_POST["score_4v4"];
+                	else{
+
+                		$player->player_4v4 += $_POST["score_4v4"];
+                	}
+                	if($player->player_4v4 < 0)
+                		$player->player_4v4 = 0;
+                }
+
+                $player->store();
+
+                unset($player->player_mdp);
+                unset($player->player_token);
+                unset($player->player_mail);
+                self::setContent($player);
+            }
             if($plaintext == $newrsa->decrypt($encrypt) )
             {
-
                 Message::addSuccess('success token !');
-                if($_POST["token_server"] != $tokenServer){
-                	Message::addWarning('Fail token server!');
-					self::setContent( $_POST["token_server"] . '/ ' . $tokenServer);
-                }
-                else{
-                	Message::addSuccess('success token server!');
-
-	                //var_dump(expression)
-	                if($_POST["score_1vall"]){
-	                	if($player->player_1vall ){
-	                		$player->player_1vall += $_POST["score_1vall"];
-	                	}
-
-	                	else{
-	                		$player->player_1vall = $_POST["score_1vall"];
-	                	}
-	                	if($player->player_1vall < 0)
-	                		$player->player_1vall = 0;
-
-	                }
-	                if($_POST["score_2v2"]){
-	                	if($player->player_2v2)
-	                		$player->player_2v2 += $_POST["score_2v2"];
-	                	else{
-	                		$player->player_2v2 = $_POST["score_2v2"];
-	                	}
-	                	if($player->player_2v2 < 0)
-	                		$player->player_2v2 = 0;
-	                }
-	                if($_POST["score_3v3"]){
-	                	if($player->player_3v3)
-	                		$player->player_3v3 += $_POST["score_3v3"];
-	                	else{
-	                		$player->player_3v3 = $_POST["score_3v3"];
-
-	                	}
-	                	if($player->player_3v3 < 0)
-	                		$player->player_3v3 = 0;
-	                }
-	                if($_POST["score_4v4"]){
-	                	if($player->player_4v4)
-	                		$player->player_4v4 += $_POST["score_4v4"];
-	                	else{
-
-	                		$player->player_4v4 += $_POST["score_4v4"];
-	                	}
-	                	if($player->player_4v4 < 0)
-	                		$player->player_4v4 = 0;
-	                }
-
-	                $player->store();
-
-	                unset($player->player_mdp);
-	                unset($player->player_token);
-	                unset($player->player_mail);
-	                self::setContent($player);
-                }
             }
             else{
                 Message::addWarning('Fail token!');
