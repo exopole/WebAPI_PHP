@@ -25,6 +25,7 @@ class PlayerController extends Controller
             $keypair = sodium_crypto_box_keypair();
         }
         $public_key = sodium_crypto_box_publickey($keypair);
+        $secret_key = sodium_crypto_box_secretkey($keypair);
 
         $message=  'Contain good text';
         $encrypted_text = sodium_crypto_box_seal($message, $public_key);
@@ -34,6 +35,8 @@ class PlayerController extends Controller
         //echo '<div>'.$keypair.'</div>';
         echo '<div>'.gettype($public_key).'</div>';
         echo '<div>'.$public_key.'</div>';
+        echo '<div>'.gettype($secret_key).'</div>';
+        echo '<div>'.$secret_key.'</div>';
         // echo '<div>'.$encrypted_text.'</div>';
         // echo '<div>'.$decrypted_text.'</div>';
 	}
