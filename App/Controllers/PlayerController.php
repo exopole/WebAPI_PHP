@@ -169,7 +169,7 @@ class PlayerController extends Controller
   //       $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
 		// extract($rsa->createKey());
 
-  //       $keypair = sodium_crypto_box_keypair();
+        $keypair = sodium_crypto_box_keypair();
 
 
         while (strpos($keypair, '#') !== false) {
