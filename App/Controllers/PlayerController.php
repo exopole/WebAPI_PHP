@@ -171,7 +171,7 @@ class PlayerController extends Controller
 
         $keypair = sodium_crypto_box_keypair();
 
-        echo "cpicpi";
+        echo "cpicpi   ";
         //while (strpos($keypair, '#') !== false) {
           //  $keypair = sodium_crypto_box_keypair();
         
@@ -180,6 +180,7 @@ class PlayerController extends Controller
 
         $public_key = sodium_crypto_box_publickey($keypair);
         $secret_key = sodium_crypto_box_secretkey($keypair);
+        echo "   cpicpi3";
 
     	if($player && $player->player_mdp == $_POST["mdp"] ){
 
