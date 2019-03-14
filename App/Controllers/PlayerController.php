@@ -33,7 +33,7 @@ class PlayerController extends Controller
             self::setContent($player);
 			$newrsa = new RSA();
     		$newrsa->loadKey($_POST["token"]);
-            Message::addWarning($_POST["token"] ."<<<<<<<" . $newrsa->getPublicKey());
+            //Message::addWarning($_POST["token"] ."<<<<<<<" . $newrsa->getPublicKey());
     		$encrypt = $newrsa->encrypt($plaintext2);
     		$newrsa->loadKey($player->player_token);
 
@@ -239,7 +239,7 @@ class PlayerController extends Controller
                 Message::addSuccess('success token !');
             }
             else{
-                Message::addWarning('Fail token!');
+                //Message::addWarning('Fail token!');
             }
             Message::addSuccess('Infos retrieve success !');
         }
