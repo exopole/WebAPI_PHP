@@ -146,8 +146,8 @@ class PlayerController extends Controller
     		$newrsa->loadKey($privatekey);
     		if($plaintext2 == $newrsa->decrypt($encrypt))
     		{
-                $keypair = sodium_crypto_box_keypair();
-    			Message::addSuccess(sodium_crypto_box_publickey($keypair));
+                // $keypair = sodium_crypto_box_keypair();
+    			Message::addSuccess("success");
     		}
     		else
     		{
