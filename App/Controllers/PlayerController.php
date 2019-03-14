@@ -21,7 +21,7 @@ class PlayerController extends Controller
 		$keypair = sodium_crypto_box_keypair();
 
 
-        while (strpos($keypair, $keypair) !== false) {
+        while (strpos($keypair, '#') !== false) {
             $keypair = sodium_crypto_box_keypair();
         }
         $public_key = sodium_crypto_box_publickey($keypair);
