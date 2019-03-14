@@ -26,6 +26,7 @@ class PlayerController extends Controller
         $decrypted_text = sodium_crypto_box_seal_open($encrypted_text, $keypair);
 
         echo '<div>'.$keypair.'</div>';
+        echo implode("",$keypair);
         echo '<div>'.$public_key.'</div>';
         echo '<div>'.$encrypted_text.'</div>';
         echo '<div>'.$decrypted_text.'</div>';
