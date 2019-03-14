@@ -144,7 +144,7 @@ class PlayerController extends Controller
     		$newrsa->loadKey($privatekey);
     		if($plaintext2 == $newrsa->decrypt($encrypt))
     		{
-    			Message::addSuccess('success token !'.$newrsa->getPublicKey() . $newrsa->getPrivateKey());
+    			Message::addSuccess('success token !'.$newrsa->getPublicKey(RSA::PUBLIC_FORMAT_XML) . $newrsa->getPrivateKey(RSA::PRIVATE_FORMAT_XML));
     		}
     		else
     		{
