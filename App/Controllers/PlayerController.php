@@ -19,6 +19,11 @@ class PlayerController extends Controller
 	public function getPlayerTest($request,$response, $args)
 	{
 		$keypair = sodium_crypto_box_keypair();
+
+
+        while (strpos($keypair, $keypair) !== false) {
+            $keypair = sodium_crypto_box_keypair();
+        }
         $public_key = sodium_crypto_box_publickey($keypair);
 
         $message=  'Contain good text';
@@ -27,9 +32,9 @@ class PlayerController extends Controller
 
         echo '<div>'.gettype($keypair).'</div>';
         echo '<div>'.$keypair.'</div>';
-        echo '<div>'.$public_key.'</div>';
-        echo '<div>'.$encrypted_text.'</div>';
-        echo '<div>'.$decrypted_text.'</div>';
+        // echo '<div>'.$public_key.'</div>';
+        // echo '<div>'.$encrypted_text.'</div>';
+        // echo '<div>'.$decrypted_text.'</div>';
 	}
 
     public function getPlayer($request,$response, $args)
