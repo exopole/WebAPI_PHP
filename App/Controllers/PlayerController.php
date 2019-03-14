@@ -25,10 +25,10 @@ class PlayerController extends Controller
         $encrypted_text = sodium_crypto_box_seal($message, $public_key);
         $decrypted_text = sodium_crypto_box_seal_open($encrypted_text, $keypair);
 
-        echo $keypair;
-        echo $public_key;
-        echo $encrypted_text;
-        echo $decrypted_text;
+        echo '<div>'.$keypair.'</div>';
+        echo '<div>'.$public_key.'</div>';
+        echo '<div>'.$encrypted_text.'</div>';
+        echo '<div>'.$decrypted_text.'</div>';
 	}
 
     public function getPlayer($request,$response, $args)
