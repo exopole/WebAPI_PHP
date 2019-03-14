@@ -59,11 +59,11 @@ class PlayerController extends Controller
             unset($player->player_mail);
             self::setContent($player);
 
-			$newrsa = new RSA();
-    		$newrsa->loadKey($_POST["token"]);
+			// $newrsa = new RSA();
+   //  		$newrsa->loadKey($_POST["token"]);
             //Message::addWarning($_POST["token"] ."<<<<<<<" . $newrsa->getPublicKey());
-    		$encrypt = $newrsa->encrypt($plaintext2);
-    		$newrsa->loadKey($player->player_token);
+    		// $encrypt = $newrsa->encrypt($plaintext2);
+    		// $newrsa->loadKey($player->player_token);
 
           	// if($plaintext2 == $newrsa->decrypt($encrypt))
           	// {
@@ -74,6 +74,26 @@ class PlayerController extends Controller
             //     Message::addWarning('Fail token!');
             //     self::setContent($newrsa->getPublicKey() . $newrsa->getPrivateKey());
             // }
+
+            $public_key = $_POST["token"];
+            $secret_key = $player->player_token;
+            $keypair2 = sodium_crypto_box_keypair_from_secretkey_and_publickey(
+                $secret_key,
+                $public_key
+            );
+
+            $encrypted_text = sodium_crypto_box_seal($plaintext2, $public_key);
+
+            if($plaintext2 === sodium_crypto_box_seal_open($encrypted_text, $keypair2)){
+
+                Message::addSuccess('token good !');
+
+            }
+            else{
+            Message::addWarning("Token not good");
+
+            }
+
             Message::addSuccess('Player trouvé !');
         }
         else{
@@ -144,43 +164,54 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-    	$rsa = new RSA();
-        $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
-		extract($rsa->createKey());
+  //   	$rsa = new RSA();
+  //       $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
+  //       $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
+		// extract($rsa->createKey());
+
+  //       $keypair = sodium_crypto_box_keypair();
+
+
+        while (strpos($keypair, '#') !== false) {
+            $keypair = sodium_crypto_box_keypair();
+        }
+        $public_key = sodium_crypto_box_publickey($keypair);
+        $secret_key = sodium_crypto_box_secretkey($keypair);
 
     	if($player && $player->player_mdp == $_POST["mdp"] ){
 
     		
 
 
-            $player->player_token = $privatekey;
+            // $player->player_token = $privatekey;
+            $player->player_token = $secret_key;
             //Message::addWarning((new DateTime())->format('Y-m-d'));
     		$player->player_date_last_connection = (new DateTime())->format('Y-m-d');
     		$player->store();
 
     		$sendPlayer = $player;
-    		$sendPlayer->player_token = $publickey;
+            // $sendPlayer->player_token = $publickey;
+    		$sendPlayer->player_token = $public_key;
     		unset($sendPlayer->player_mdp);
 
         	
             self::setContent($sendPlayer);
 
             $plaintext2 = "THEGreatWizardTournament";
-    		$newrsa = new RSA();
-    		$newrsa->loadKey($publickey);
-    		$encrypt = $newrsa->encrypt($plaintext2);
-    		$newrsa->loadKey($privatekey);
-    		if($plaintext2 == $newrsa->decrypt($encrypt))
-    		{
-                // $keypair = sodium_crypto_box_keypair();
-    			Message::addSuccess("success");
-    		}
-    		else
-    		{
-    			Message::addWarning('fail token !');
+    		// $newrsa = new RSA();
+    		// $newrsa->loadKey($publickey);
+    		// $encrypt = $newrsa->encrypt($plaintext2);
+    		// $newrsa->loadKey($privatekey);
+    		// if($plaintext2 == $newrsa->decrypt($encrypt))
+    		// {
+      //           // $keypair = sodium_crypto_box_keypair();
+    		// 	Message::addSuccess("success");
+    		// }
+    		// else
+    		// {
+    		// 	Message::addWarning('fail token !');
 
-    		}
+    		// }
     	}
 
     	else {
