@@ -171,7 +171,7 @@ class PlayerController extends Controller
 
         $keypair = sodium_crypto_box_keypair();
 
-
+        echo "cpicpi";
         while (strpos($keypair, '#') !== false) {
             $keypair = sodium_crypto_box_keypair();
         }
