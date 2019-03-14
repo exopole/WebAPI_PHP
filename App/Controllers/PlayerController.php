@@ -23,16 +23,17 @@ class PlayerController extends Controller
 
     public function getPlayer($request,$response, $args)
     {
-        $plaintext = "THEGreatWizardTournament";
+        $plaintext2 = "THEGreatWizardTournament";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
 			$newrsa = new RSA();
     		$newrsa->loadKey($_POST["token"]);
-    		$encrypt = $newrsa->encrypt($plaintext);
+            Message::addWarning($_POST["token"] ."<<<<<<<" . $newrsa->getPublicKey());
+    		$encrypt = $newrsa->encrypt($plaintext2);
     		$newrsa->loadKey($player->player_token);
 
-          	if($plaintext == $newrsa->decrypt($encrypt))
+          	if($plaintext2 == $newrsa->decrypt($encrypt))
           	{
                 Message::addSuccess('success token !');
 
