@@ -75,24 +75,24 @@ class PlayerController extends Controller
             //     self::setContent($newrsa->getPublicKey() . $newrsa->getPrivateKey());
             // }
 
-            $public_key = $_POST["token"];
-            $secret_key = $player->player_token;
-            $keypair2 = sodium_crypto_box_keypair_from_secretkey_and_publickey(
-                $secret_key,
-                $public_key
-            );
+            // $public_key = $_POST["token"];
+            // $secret_key = $player->player_token;
+            // $keypair2 = sodium_crypto_box_keypair_from_secretkey_and_publickey(
+            //     $secret_key,
+            //     $public_key
+            // );
 
-            $encrypted_text = sodium_crypto_box_seal($plaintext2, $public_key);
+            // $encrypted_text = sodium_crypto_box_seal($plaintext2, $public_key);
 
-            if($plaintext2 === sodium_crypto_box_seal_open($encrypted_text, $keypair2)){
+            // if($plaintext2 === sodium_crypto_box_seal_open($encrypted_text, $keypair2)){
 
-                Message::addSuccess('token good !');
+            //     Message::addSuccess('token good !');
 
-            }
-            else{
-            Message::addWarning("Token not good");
+            // }
+            // else{
+            // Message::addWarning("Token not good");
 
-            }
+            // }
 
             Message::addSuccess('Player trouvé !');
         }
@@ -164,38 +164,38 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-  //   	$rsa = new RSA();
-  //       $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
-  //       $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
-		// extract($rsa->createKey());
+    	$rsa = new RSA();
+        $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
+		extract($rsa->createKey());
 
-        $keypair = sodium_crypto_box_keypair();
+        // $keypair = sodium_crypto_box_keypair();
 
-        echo "cpicpi   ";
-        //while (strpos($keypair, '#') !== false) {
-          //  $keypair = sodium_crypto_box_keypair();
+        // echo "cpicpi   ";
+        // //while (strpos($keypair, '#') !== false) {
+        //   //  $keypair = sodium_crypto_box_keypair();
         
 
-        echo "cpicpi2";
+        // echo "cpicpi2";
 
-        $public_key = sodium_crypto_box_publickey($keypair);
-        $secret_key = sodium_crypto_box_secretkey($keypair);
-        echo "   cpicpi3";
+        // $public_key = sodium_crypto_box_publickey($keypair);
+        // $secret_key = sodium_crypto_box_secretkey($keypair);
+        // echo "   cpicpi3";
 
     	if($player && $player->player_mdp == $_POST["mdp"] ){
 
     		
 
 
-            // $player->player_token = $privatekey;
+            $player->player_token = $privatekey;
             $player->player_token = $secret_key;
             //Message::addWarning((new DateTime())->format('Y-m-d'));
     		$player->player_date_last_connection = (new DateTime())->format('Y-m-d');
     		$player->store();
 
     		$sendPlayer = $player;
-            // $sendPlayer->player_token = $publickey;
-    		$sendPlayer->player_token = $public_key;
+            $sendPlayer->player_token = $publickey;
+    		// $sendPlayer->player_token = $public_key;
     		unset($sendPlayer->player_mdp);
 
         	
