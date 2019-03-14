@@ -18,7 +18,14 @@ class PlayerController extends Controller
 
 	public function getPlayerTest($request,$response, $args)
 	{
-		Message::addSuccess('success token !');
+		$keypair = sodium_crypto_box_keypair();
+        $public_key = sodium_crypto_box_publickey($keypair);
+
+        $message=  'Contain good text';
+        $encrypted_text = sodium_crypto_box_seal($message, $public_key);
+        $decrypted_text = sodium_crypto_box_seal_open($encrypted_text, $keypair);
+
+        echo $decrypted_text;
 	}
 
     public function getPlayer($request,$response, $args)
