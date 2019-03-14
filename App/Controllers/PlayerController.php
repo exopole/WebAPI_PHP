@@ -116,8 +116,9 @@ class PlayerController extends Controller
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
     	$rsa = new RSA();
-    		extract($rsa->createKey());
-    		$_SESSION['token'] = PlayerModel::defineId();
+        $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
+        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
+		extract($rsa->createKey());
 
     	if($player && $player->player_mdp == $_POST["mdp"] ){
 
