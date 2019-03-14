@@ -175,6 +175,9 @@ class PlayerController extends Controller
         while (strpos($keypair, '#') !== false) {
             $keypair = sodium_crypto_box_keypair();
         }
+
+        echo "cpicpi2";
+
         $public_key = sodium_crypto_box_publickey($keypair);
         $secret_key = sodium_crypto_box_secretkey($keypair);
 
