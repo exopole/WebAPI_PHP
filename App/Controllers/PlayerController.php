@@ -31,6 +31,7 @@ class PlayerController extends Controller
             unset($player->player_token);
             unset($player->player_mail);
             self::setContent($player);
+
 			$newrsa = new RSA();
     		$newrsa->loadKey($_POST["token"]);
             //Message::addWarning($_POST["token"] ."<<<<<<<" . $newrsa->getPublicKey());
@@ -145,7 +146,8 @@ class PlayerController extends Controller
     		$newrsa->loadKey($privatekey);
     		if($plaintext2 == $newrsa->decrypt($encrypt))
     		{
-    			Message::addSuccess('success token !'.$newrsa->getPublicKey(RSA::PUBLIC_FORMAT_XML) . $newrsa->getPrivateKey(RSA::PRIVATE_FORMAT_XML));
+                $keypair = sodium_crypto_box_keypair();
+    			Message::addSuccess(sodium_crypto_box_publickey($keypair));
     		}
     		else
     		{
