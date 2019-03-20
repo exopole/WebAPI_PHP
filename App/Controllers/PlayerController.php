@@ -132,6 +132,7 @@ class PlayerController extends Controller
 
     	if(!$player && $_POST["username"] && $_POST["mdp"])
     	{
+    		$token = PlayerModel::defineId();
     		$newPlayer = PlayerModel::create();
     		$newPlayer->id = PlayerModel::defineId();
     		$newPlayer->player_name = $_POST["username"];
@@ -140,17 +141,17 @@ class PlayerController extends Controller
     		if($_POST["mail"])
     			$newPlayer->player_mail = $_POST["mail"];
 
-    		$rsa = new RSA();
-    		extract($rsa->createKey());
+    		// $rsa = new RSA();
+    		// extract($rsa->createKey());
 
-    		$newPlayer->player_token = $privatekey;
+    		$newPlayer->player_token = $token;
             $newPlayer->player_date_last_connection = (new DateTime())->format('Y-m-d');
     		$newPlayer->player_date_inscription = (new DateTime())->format('Y-m-d');
     		$newPlayer->store();
     		Message::addSuccess('Inscription success !');
     		$player = $newPlayer;
 
-    		$player->player_token = $publickey; 
+    		$player->player_token = $token; 
 
     		unset($player->player_mdp);
         	self::setContent($player);
@@ -164,10 +165,10 @@ class PlayerController extends Controller
     public function connectPlayer($request, $response, $args)
     {
     	$player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-    	$rsa = new RSA();
-        $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
-        $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
-		extract($rsa->createKey());
+  //   	$rsa = new RSA();
+  //       $rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_XML);
+  //       $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_XML);
+		// extract($rsa->createKey());
 
         // $keypair = sodium_crypto_box_keypair();
 
@@ -187,14 +188,16 @@ class PlayerController extends Controller
     		
 
 
-            $player->player_token = $privatekey;
-            $player->player_token = $secret_key;
+            // $player->player_token = $privatekey;
+            // $player->player_token = $secret_key;
+            $token = PlayerModel::defineId();
+            $player->player_token = $token;
             //Message::addWarning((new DateTime())->format('Y-m-d'));
     		$player->player_date_last_connection = (new DateTime())->format('Y-m-d');
     		$player->store();
 
     		$sendPlayer = $player;
-            $sendPlayer->player_token = $publickey;
+            $sendPlayer->player_token = $token;
     		// $sendPlayer->player_token = $public_key;
     		unset($sendPlayer->player_mdp);
 
