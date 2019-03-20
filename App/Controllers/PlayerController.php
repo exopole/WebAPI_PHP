@@ -52,7 +52,7 @@ class PlayerController extends Controller
     {
         $plaintext2 = "THEGreatWizardTournament";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
-        if($player)
+        if($player && $player->player_token == $_POST["token"]) 
         {
             unset($player->player_mdp);
             unset($player->player_token);
@@ -227,16 +227,16 @@ class PlayerController extends Controller
 
     public function setScore($request,$response, $args)
     {
-        $plaintext = "THEGreatWizardTournament";
+        // $plaintext = "THEGreatWizardTournament";
     	$tokenServer = "MiaouIStheWORLD";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
-            $newrsa = new RSA();
-            $newrsa->loadKey($player->player_token);
-            $newrsa->loadKey($newrsa->getPublicKey());
+            // $newrsa = new RSA();
+            // $newrsa->loadKey($player->player_token);
+            // $newrsa->loadKey($newrsa->getPublicKey());
             //$newrsa->loadKey($_POST["token"]);
-            $encrypt = $newrsa->encrypt($plaintext);
+            // $encrypt = $newrsa->encrypt($plaintext);
             //$newrsa->loadKey($player->player_token);
 
             
@@ -244,6 +244,10 @@ class PlayerController extends Controller
             if($_POST["token_server"] != $tokenServer){
             	Message::addWarning('Fail token server!');
 				self::setContent( $_POST["token_server"] . '/ ' . $tokenServer);
+            }
+            else if($player->player_token != $_POST["token"] ){
+				Message::addWarning('Fail token!');
+				self::setContent( $_POST["token"] . '/ ' . $player->player_token);
             }
             else{
             	Message::addSuccess('success token server!');
@@ -289,6 +293,10 @@ class PlayerController extends Controller
                 	}
                 	if($player->player_4v4 < 0)
                 		$player->player_4v4 = 0;
+                }
+
+                if($_POST["duration_game"]){
+                	$player->player_time_spent += $_POST["duration_game"];
                 }
 
                 $player->store();
