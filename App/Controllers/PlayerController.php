@@ -97,7 +97,7 @@ class PlayerController extends Controller
             Message::addSuccess('Player trouvé !');
         }
         else{
-            Message::addWarning("La connection ne c\"est pas effectué");
+            Message::addWarning("La connection ne c\"est pas effectué =>" . $player->player_token . "/". $_POST["token"]);
         }
         
     }
