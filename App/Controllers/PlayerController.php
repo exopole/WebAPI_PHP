@@ -97,7 +97,7 @@ class PlayerController extends Controller
             Message::addSuccess('Player trouvé !');
         }
         else{
-            Message::addWarning("La connection ne c\"est pas effectué =>" . $player->player_token . "/". $_POST["token"]);
+            Message::addWarning("La connection ne c\"est pas effectué ");
         }
         
     }
@@ -231,7 +231,7 @@ class PlayerController extends Controller
     public function setScore($request,$response, $args)
     {
         // $plaintext = "THEGreatWizardTournament";
-    	$tokenServer = "MiaouIStheWORLD";
+    	$tokenServer = "QuentinIsTheBEAST";
         $player = PlayerModel::findFirst(["player_name" => $_POST["username"]]);
         if($player)
         {
@@ -246,11 +246,9 @@ class PlayerController extends Controller
 
             if($_POST["token_server"] != $tokenServer){
             	Message::addWarning('Fail token server!');
-				self::setContent( $_POST["token_server"] . '/ ' . $tokenServer);
             }
             else if($player->player_token != $_POST["token"] ){
 				Message::addWarning('Fail token!');
-				self::setContent( $_POST["token"] . '/ ' . $player->player_token);
             }
             else{
             	Message::addSuccess('success token server!');
